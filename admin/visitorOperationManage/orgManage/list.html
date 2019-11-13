@@ -1,0 +1,122 @@
+<style>
+    .even{
+        background-color: #fcfcfc!important;
+    }
+    .uneven{
+        background-color: #fff!important;
+    }
+    .dropdown-menu{
+        min-width: 10px!important;
+
+    }
+    .dropdown-menu>li>a{
+        padding: 5px 10px!important;
+    }
+
+
+
+
+
+</style>
+<div ng-controller="orgManage" class="wrapper-md" style="padding-right: 45px;">
+    <div class="table_header">
+        {{orgShowName}}管理
+    </div>
+    <form class="form-inline" method="get" action="#" style="margin-top: 20px">
+        <div class="form-group">
+            <label for="org_name">名称</label> <input type="text" ng-model="org_name" placeholder="名称" class="form-control" id="org_name" name="org_name" />
+        </div>
+        <div class="form-group">
+            <label for="s_name">上级名称</label> <input type="text"  ng-model="s_name" placeholder="上级名称" class="form-control" id="s_name" name="s_name" />
+        </div>
+        <div class="form-group">
+            <label for="realName">姓名</label> <input type="text"  ng-model="realName" placeholder="姓名" class="form-control" id="realName" name="realName" />
+        </div>
+        <div class="form-group">
+            <label for="phone">手机号</label> <input type="number"  ng-model="phone" placeholder="手机号" class="form-control" id="phone" name="phone" />
+        </div>
+       <!-- <div class="form-group" ng-show="role_id==1">
+            <label for="orgType">机构类型</label>
+            <select name="orgType" class="form-control  chosen1" id="orgType" ng-model="orgType">
+                <option value="all">全部</option>
+                <option value="floor">大厦</option>
+                <option value="property">物业</option>
+                <option value="business">运营商</option>
+            </select>
+        </div>-->
+        <br>
+        <div class="form-group">
+            <button type="button" id="searchBtn" class="btn btn-primary" ng-if="getFlag" ng-click="mySeach()">搜索</button>
+        </div>
+
+        <div class="pull-right orgBtns form-group">
+            <button ng-if="addFlag" ng-click="addClick()" type='button' id='addBtn' class='btn btn-success'>新增</button>
+            <button ng-if="delFlag" ng-click="delClick()" type='button' id='delBtn' class='btn btn-danger'>删除</button>
+        </div>
+    </form>
+    <br>
+
+
+        <div class="table_bg">
+        <div class="table-responsive  table">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" ng-click="selectAll($event)"/></th>
+                    <th>序号</th>
+                    <th>编码</th>
+                    <th>名称</th>
+                    <th>上级名称</th>
+                    <th>姓名</th>
+                    <th>手机号</th>
+                    <th>地址</th>
+                    <th>类型</th>
+                    <th>创建时间</th>
+                    <th>状态</th>
+                    <th>操作</th>                    
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr ng-repeat="(aindex,m) in recordArr" class="{{m.line}}" style="{{m.lineColor}}">
+                    <td>
+                        <input type='checkbox' class="check tableCheckbox"  oid="{{m.id}}"/>
+                    </td>
+                    <td>{{m.number}}</td>
+                    <td>{{m.org_code}}</td>
+                    <td>{{m.org_name}}</td>
+                    <td>{{m.s_name}}</td>
+                    <td>{{m.realName}}</td>
+                    <td>{{m.phone}}</td>
+                    <td>{{m.province}}{{m.city}}{{m.area}}{{m.addr}}</td>
+                    <td>{{m.orgType|orgFilter}}</td>
+                    <td>{{m.createDate}}</td>
+                    <td>{{m.sstatus|orgFilter}}</td>
+                    <td>
+                        <button type="button" class="btn btn-default updOrg" ng-if="updFlag" ng-click="updClick(m.id,m.org_code,m.org_name,m.realName,m.phone,m.addr,m.sstatus,m.province,m.city,m.area)">
+                            修改
+                        </button>
+                        <button type="button" class="btn btn-default freezeOrgAccount"  ng-if="m.sstatus=='freeze'&&updOrgStatusFlag" ng-click="updOrgStatusClick(m.id,m.sstatus)">
+                            正常
+                        </button>
+                        <button type="button" class="btn btn-default freezeOrgAccount"  ng-if="m.sstatus=='normal'&&updOrgStatusFlag" ng-click="updOrgStatusClick(m.id,m.sstatus)">
+                            冻结
+                        </button>
+
+                        <button type="button" ng-if="updFlag" class="btn btn-default freezeOrgAccount"   ng-click="chakanewm(m.org_code)">
+                            查看二维码
+                        </button>
+
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div data-ng-init="load()" data-ng-include=" 'admin/blocks/pageFoot.html' ">
+    </div>
+</div>
+<style>
+
+</style>
